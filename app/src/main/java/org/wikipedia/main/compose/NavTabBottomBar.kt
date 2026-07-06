@@ -103,7 +103,7 @@ private fun NavTabItem(
     ) {
         Box(contentAlignment = Alignment.Center) {
             Icon(
-                painter = painterResource(tab.icon),
+                painter = painterResource(if (selected) tab.selectedIcon else tab.icon),
                 contentDescription = stringResource(tab.text),
                 tint = contentColor,
                 modifier = Modifier.size(24.dp)
