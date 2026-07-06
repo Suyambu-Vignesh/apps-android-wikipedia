@@ -55,7 +55,6 @@ import org.wikipedia.events.NewRecommendedReadingListEvent
 import org.wikipedia.history.HistoryEntry
 import org.wikipedia.history.SearchActionModeCallback
 import org.wikipedia.main.MainActivity
-import org.wikipedia.main.MainFragment
 import org.wikipedia.page.ExclusiveBottomSheetPresenter
 import org.wikipedia.page.PageActivity
 import org.wikipedia.page.PageAvailableOfflineHandler
@@ -761,7 +760,7 @@ class ReadingListsFragment : Fragment(), SortReadingListsDialog.Callback, Readin
             enableLayoutTransition(false)
             binding.onboardingView.isVisible = false
             if (isAdded) {
-                (requireParentFragment() as MainFragment).setBottomNavVisible(false)
+                (requireActivity() as MainActivity).setBottomNavVisible(false)
             }
             return super.onCreateActionMode(mode, menu)
         }
@@ -776,7 +775,7 @@ class ReadingListsFragment : Fragment(), SortReadingListsDialog.Callback, Readin
             actionMode = null
             currentSearchQuery = null
             if (isAdded) {
-                (requireParentFragment() as MainFragment).setBottomNavVisible(true)
+                (requireActivity() as MainActivity).setBottomNavVisible(true)
             }
             updateLists()
         }
@@ -859,8 +858,8 @@ class ReadingListsFragment : Fragment(), SortReadingListsDialog.Callback, Readin
             binding.onboardingView.setMessageText(getString(R.string.reading_lists_login_reminder_text))
             binding.onboardingView.setImageResource(ResourceUtil.getThemedAttributeId(requireContext(), R.attr.sync_reading_list_prompt_drawable), true)
             binding.onboardingView.setPositiveButton(R.string.reading_lists_login_button, {
-                if (isAdded && requireParentFragment() is MainFragment) {
-                    (requireParentFragment() as MainFragment).onLoginRequested()
+                if (isAdded) {
+                    (requireActivity() as MainActivity).onLoginRequested()
                 }
             }, true)
             binding.onboardingView.setNegativeButton(R.string.reading_lists_ignore_button, {

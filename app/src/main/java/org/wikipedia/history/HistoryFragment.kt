@@ -34,7 +34,6 @@ import org.wikipedia.activity.FragmentUtil
 import org.wikipedia.database.AppDatabase
 import org.wikipedia.databinding.FragmentHistoryBinding
 import org.wikipedia.main.MainActivity
-import org.wikipedia.main.MainFragment
 import org.wikipedia.page.PageAvailableOfflineHandler
 import org.wikipedia.readinglist.database.ReadingList
 import org.wikipedia.search.HybridSearchAbCTest
@@ -267,9 +266,9 @@ class HistoryFragment : Fragment(), BackPressedHandler {
             val voiceSearchButton = itemView.findViewById<View>(R.id.voice_search_button)
             historyFilterButton = itemView.findViewById(R.id.history_filter)
             clearHistoryButton = itemView.findViewById(R.id.history_delete)
-            searchCardView.setOnClickListener { (requireParentFragment() as MainFragment).openSearchActivity(Constants.InvokeSource.NAV_MENU, null, it) }
+            searchCardView.setOnClickListener { (requireActivity() as MainActivity).openSearchActivity(Constants.InvokeSource.NAV_MENU, null, it) }
             voiceSearchButton.isVisible = WikipediaApp.instance.voiceRecognitionAvailable
-            voiceSearchButton.setOnClickListener { (requireParentFragment() as MainFragment).onFeedVoiceSearchRequested() }
+            voiceSearchButton.setOnClickListener { (requireActivity() as MainActivity).onFeedVoiceSearchRequested() }
             historyFilterButton.setOnClickListener {
                 if (actionMode == null) {
                     actionMode = (requireActivity() as AppCompatActivity)
@@ -419,7 +418,7 @@ class HistoryFragment : Fragment(), BackPressedHandler {
     private inner class HistorySearchCallback : SearchActionModeCallback() {
         override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
             actionMode = mode
-            (requireParentFragment() as MainFragment).setBottomNavVisible(false)
+            (requireActivity() as MainActivity).setBottomNavVisible(false)
             (binding.historyList.adapter as HistoryEntryItemAdapter).hideHeader()
             return super.onCreateActionMode(mode, menu)
         }
@@ -432,7 +431,7 @@ class HistoryFragment : Fragment(), BackPressedHandler {
             super.onDestroyActionMode(mode)
             viewModel.searchQuery = ""
             actionMode = null
-            (requireParentFragment() as MainFragment).setBottomNavVisible(true)
+            (requireActivity() as MainActivity).setBottomNavVisible(true)
         }
 
         override fun getSearchHintString(): String {

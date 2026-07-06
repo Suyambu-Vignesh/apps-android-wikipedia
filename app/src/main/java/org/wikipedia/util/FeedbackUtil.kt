@@ -31,7 +31,6 @@ import org.wikipedia.activity.BaseActivity
 import org.wikipedia.analytics.eventplatform.BreadCrumbLogEvent
 import org.wikipedia.databinding.ViewPlainTextTooltipBinding
 import org.wikipedia.dataclient.WikiSite
-import org.wikipedia.main.MainActivity
 import org.wikipedia.page.LinkMovementMethodExt
 import org.wikipedia.page.PageActivity
 import org.wikipedia.page.edithistory.EditHistoryListActivity
@@ -298,7 +297,6 @@ object FeedbackUtil {
 
         // Otherwise, use the appropriate view for the activity.
         val viewId = when (activity) {
-            is MainActivity -> R.id.fragment_main_coordinator
             is PageActivity -> R.id.fragment_page_coordinator
             is RandomActivity -> R.id.random_coordinator_layout
             is ReadingListActivity -> R.id.fragment_reading_list_coordinator
