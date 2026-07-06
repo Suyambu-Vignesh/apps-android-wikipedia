@@ -8,12 +8,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import org.wikipedia.R
 import org.wikipedia.activity.SingleFragmentActivity
 import org.wikipedia.main.MainActivity
-import org.wikipedia.main.MainFragment
-import org.wikipedia.navtab.NavTab
 import org.wikipedia.onboarding.InitialOnboardingActivity
 import org.wikipedia.page.ExclusiveBottomSheetPresenter
 
@@ -54,32 +51,20 @@ object BreadCrumbViewUtil {
     }
 
     private fun getCurrentFragmentName(context: Context): String {
+        if (context is MainActivity) {
+            return context.currentNavTab().name
+        }
         val fragment = getVisibleFragment(context)
 
         return when {
             fragment != null && context is InitialOnboardingActivity -> {
                 getInitialOnboardingScreenName(fragment)
             }
-            fragment != null && context is MainActivity -> {
-                getMainFragmentTabName(fragment)
-            }
             fragment != null -> {
                 return fragment.javaClass.simpleName
             }
             else -> return ""
         }
-    }
-
-    private fun getMainFragmentTabName(fragment: Fragment): String {
-        if (fragment is MainFragment) {
-            val mainFragmentPager: ViewPager2? = fragment.view?.findViewById(R.id.main_view_pager)
-            return if (mainFragmentPager == null) {
-                fragment.javaClass.simpleName
-            } else {
-                NavTab.of(mainFragmentPager.currentItem).name
-            }
-        }
-        return ""
     }
 
     private fun getInitialOnboardingScreenName(fragment: Fragment): String {

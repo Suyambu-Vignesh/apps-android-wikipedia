@@ -3,56 +3,37 @@ package org.wikipedia.robots.navigation
 import BaseRobot
 import android.util.Log
 import androidx.compose.ui.test.isDisplayed
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.hamcrest.Matchers.allOf
 import org.wikipedia.R
-import org.wikipedia.TestUtil.childAtPosition
 import org.wikipedia.base.TestConfig
 
 class BottomNavRobot : BaseRobot() {
+    // The bottom navigation bar is a Compose component (NavTabBottomBar); each tab is identified by
+    // the content description of its icon, so it is driven through the Compose test rule.
     fun navigateToExploreFeed() = apply {
-        onView(
-            allOf(
-                withId(R.id.nav_tab_home), withContentDescription("Home"),
-            childAtPosition(childAtPosition(withId(R.id.main_nav_tab_layout), 0), 0), isDisplayed()
-            )
-        ).perform(click())
+        composeTestRule.onNodeWithContentDescription("Home").performClick()
         delay(TestConfig.DELAY_LARGE)
     }
 
     fun navigateToSavedPage() = apply {
-        // Access the other navigation tabs - `Saved`, `Search` and `Edits`
-        onView(
-            allOf(
-                withId(R.id.nav_tab_reading_lists), withContentDescription("Saved"),
-                childAtPosition(childAtPosition(withId(R.id.main_nav_tab_layout), 0), 1), isDisplayed()
-            )
-        ).perform(click())
+        composeTestRule.onNodeWithContentDescription("Saved").performClick()
         delay(TestConfig.DELAY_SHORT)
     }
 
     fun navigateToSearchPage() = apply {
-        onView(
-            allOf(
-                withId(R.id.nav_tab_search), withContentDescription("Search"),
-            childAtPosition(childAtPosition(withId(R.id.main_nav_tab_layout), 0), 2), isDisplayed()
-            )
-        ).perform(click())
+        composeTestRule.onNodeWithContentDescription("Search").performClick()
         delay(TestConfig.DELAY_SHORT)
     }
 
     fun navigateToActivityTab() = apply {
-        onView(
-            allOf(
-                withId(R.id.nav_tab_edits), withContentDescription(R.string.nav_item_activity),
-            childAtPosition(childAtPosition(withId(R.id.main_nav_tab_layout), 0), 3), isDisplayed()
-            )
-        ).perform(click())
+        composeTestRule.onNodeWithContentDescription("Activity").performClick()
         val isOnboardingActivity = composeTestRule.onNodeWithText("Introducing Activity").isDisplayed()
         if (isOnboardingActivity) {
             pressBack()
@@ -61,7 +42,7 @@ class BottomNavRobot : BaseRobot() {
     }
 
     fun navigateToMoreMenu() = apply {
-        onView(allOf(withId(R.id.nav_tab_more), withContentDescription("More"), isDisplayed())).perform(click())
+        composeTestRule.onNodeWithContentDescription("More").performClick()
         delay(TestConfig.DELAY_SHORT)
     }
 
